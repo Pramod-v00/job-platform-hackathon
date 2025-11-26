@@ -31,7 +31,7 @@ Storage: Multer (Image Uploads)
 
 🔗 Live Deployment
 
-Frontend: (Netlify / Vercel link)
+Frontend: https://job-platform-hackathon-766x.vercel.app
 Backend: (Render link)
 
 💻 How to Run Locally

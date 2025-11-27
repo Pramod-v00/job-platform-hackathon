@@ -14,7 +14,7 @@ const app = express();
 app.use(
   cors({
     origin: ["http://localhost:3000", "http://localhost:3001","https://job-platform-hackathon-766x.vercel.app"],
-    methods: ["GET", "POST", "PUT", "DELETE"],
+    methods: ["GET", "POST", "PUT", "DELETE","PATCH","OPTIONS"],
     allowedHeaders: ["Content-Type","phone", "Authorization"],
   })
 );

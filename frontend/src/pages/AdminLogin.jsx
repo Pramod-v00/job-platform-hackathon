@@ -14,7 +14,7 @@ const AdminLogin = () => {
     setSuccess("");
 
     try {
-      const res = await axios.post("https://job-platform-hackathon.onrender.com/ api / admin / login", {
+      const res = await axios.post("https://job-platform-hackathon.onrender.com/api/admin/login", {
         email,
         password
       });

@@ -37,7 +37,7 @@ const Profile = () => {
 
       try {
         const response = await fetch(
-          `http://localhost:5000/api/jobs/user/${user.phone}`
+          `https://job-platform-hackathon.onrender.com/api/jobs/user/${user.phone}`
         );
         const data = await response.json();
         setJobs(data);
@@ -66,7 +66,7 @@ const Profile = () => {
       if (removePhoto) formDataToSend.append("removePhoto", true);
 
       const response = await fetch(
-        `http://localhost:5000/api/users/update/${user.phone}`,
+        `https://job-platform-hackathon.onrender.com/api/users/update/${user.phone}`,
         {
           method: "PUT",
           body: formDataToSend,
@@ -92,7 +92,7 @@ const Profile = () => {
     if (!window.confirm("Are you sure you want to delete this post?")) return;
 
     try {
-      const response = await fetch(`http://localhost:5000/api/jobs/${jobId}`, {
+      const response = await fetch(`https://job-platform-hackathon.onrender.com/api/jobs/${jobId}`, {
         method: "DELETE",
         headers: {
           phone: user.phone   // ⭐ ONLY header allowed
@@ -120,7 +120,7 @@ const Profile = () => {
         <div className="profile-photo">
           {user.profilePhoto && !removePhoto ? (
             <img
-              src={`http://localhost:5000${user.profilePhoto}`}
+              src={`https://job-platform-hackathon.onrender.com${user.profilePhoto}`}
               alt="Profile"
             />
           ) : (
@@ -274,14 +274,14 @@ const Profile = () => {
             <div key={index} className="post-item">
               {post.photoUrl && (
                 <img
-                  src={`http://localhost:5000${post.photoUrl}`}
+                  src={`https://job-platform-hackathon.onrender.com${post.photoUrl}`}
                   alt="Post"
                 />
               )}
 
               {post.voiceUrl ? (
                 <audio controls>
-                  <source src={`http://localhost:5000${post.voiceUrl}`} />
+                  <source src={`https://job-platform-hackathon.onrender.com${post.voiceUrl}`} />
                 </audio>
               ) : (
                 <p>No description available</p>

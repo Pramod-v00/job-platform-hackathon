@@ -54,7 +54,7 @@ const AdminDashboard = () => {
           {jobs.map((job) => (
             <div className="admin-job-card" key={job._id}>
               <img
-                src={`http://localhost:5000${job.photoUrl}`}
+                src={`https://job-platform-hackathon.onrender.com${job.photoUrl}`}
                 alt="Job"
                 className="admin-photo"
               />
@@ -64,7 +64,7 @@ const AdminDashboard = () => {
                 <p>📍 District: {job.district}</p>
 
                 {job.voiceUrl && (
-                  <audio controls src={`http://localhost:5000${job.voiceUrl}`} />
+                  <audio controls src={`https://job-platform-hackathon.onrender.com${job.voiceUrl}`} />
                 )}
 
                 <div className="admin-buttons">

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:5000/api/jobs"; // backend URL
+const API_URL = "https://job-platform-hackathon.onrender.com/api/jobs"; // backend URL
 
 // ✅ Create Job
 export const postJob = async (formData, userPhone) => {

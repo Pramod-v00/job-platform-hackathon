@@ -26,7 +26,7 @@ const SearchPage = () => {
     try {
       // ⭐ send both query + district
       const res = await fetch(
-        `http://localhost:5000/api/users/search/${query}/${user.district}`
+        `https://job-platform-hackathon.onrender.com/api/users/search/${query}/${user.district}`
       );
       const data = await res.json();
 
@@ -66,7 +66,7 @@ const SearchPage = () => {
             <div className="profile-photo-box">
               {user.profilePhoto ? (
                 <img
-                  src={`http://localhost:5000${user.profilePhoto}`}
+                  src={`https://job-platform-hackathon.onrender.com${user.profilePhoto}`}
                   alt={user.name}
                   className="profile-pic"
                 />

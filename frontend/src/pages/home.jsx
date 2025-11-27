@@ -35,7 +35,7 @@ const Home = () => {
           {jobs.map((job) => (
             <div className="job-card" key={job._id}>
               <img
-                src={`http://localhost:5000${job.photoUrl}`}
+                src={`https://job-platform-hackathon.onrender.com${job.photoUrl}`}
                 alt="Job"
                 className="job-photo"
               />
@@ -52,7 +52,7 @@ const Home = () => {
                 {job.voiceUrl && (
                   <audio
                     controls
-                    src={`http://localhost:5000${job.voiceUrl}`}
+                    src={`https://job-platform-hackathon.onrender.com${job.voiceUrl}`}
                     className="job-audio"
                   />
                 )}

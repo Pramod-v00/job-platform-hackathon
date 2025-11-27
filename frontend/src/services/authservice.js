@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:5000/api/users"; // backend URL
+const API_URL = "https://job-platform-hackathon.onrender.com/api/users"; // backend URL
 
 export const signupUser = async ({ name,phone, password, district }) => {
   const res = await axios.post(`${API_URL}/signup`, { name,phone, password, district });

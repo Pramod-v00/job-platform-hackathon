@@ -32,7 +32,7 @@ Storage: Multer (Image Uploads)
 🔗 Live Deployment
 
 Frontend: https://job-platform-hackathon-766x.vercel.app
-Backend: (Render link)
+Backend: https://job-platform-hackathon.onrender.com
 
 💻 How to Run Locally
 1️⃣ Backend

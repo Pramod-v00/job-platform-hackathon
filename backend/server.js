@@ -13,7 +13,7 @@ const app = express();
 // ⭐ Correct CORS Setup for Admin + User
 app.use(
   cors({
-    origin: ["http://localhost:3000", "http://localhost:3001"],
+    origin: ["http://localhost:3000", "http://localhost:3001","https://job-platform-hackathon-766x.vercel.app"],
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type","phone", "Authorization"],
   })

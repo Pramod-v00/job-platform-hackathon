@@ -1,0 +1,186 @@
+/* ===== Profile Container ===== */
+.profile-container {
+  max-width: 1400px;
+  margin: 40px auto;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+
+/* ===== Header ===== */
+.profile-header {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  flex-wrap: wrap;
+  margin-bottom: 25px;
+}
+
+.profile-photo {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  border: 3px solid #ddd;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background-color: #f0f0f0;
+}
+
+.profile-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.profile-text {
+  font-size: 18px;
+  font-weight: 600;
+  color: #555;
+  text-align: center;
+}
+
+.profile-info {
+  flex: 1;
+}
+
+.profile-info h2 {
+  font-size: 24px;
+  margin: 0;
+}
+
+.profile-info p {
+  color: #555;
+  margin: 5px 0;
+}
+
+.profile-edit-btn {
+  background: #007bff;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.profile-edit-btn:hover {
+  background: #0056b3;
+}
+
+/* ===== Your Posts Section ===== */
+.posts-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 25px;
+  margin-top: 20px;
+  padding: 20px 0;
+}
+
+/* ===== Post Card (Box Style like Home Page) ===== */
+.post-item {
+  width: 260px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 12px;
+  text-align: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.post-item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* ===== Image Styling (Fixed Full Size like Home Page) ===== */
+.post-item img {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+/* ===== Audio & Text ===== */
+.post-item audio {
+  width: 100%;
+  margin: 10px 0;
+}
+
+.post-item p {
+  font-size: 15px;
+  color: #444;
+  margin: 6px 0;
+}
+
+.post-item .place {
+  font-size: 14px;
+  color: #777;
+}
+
+/* ===== Edit Box ===== */
+.edit-box {
+  background: #fff;
+  padding: 25px;
+  border-radius: 10px;
+  width: 320px;
+}
+
+.edit-box h3 {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.edit-box input,
+.edit-box select {
+  width: 93.5%;
+  padding: 10px;
+  margin: 5px 0;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.edit-box button {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.save-btn {
+  background: #28a745;
+  color: #fff;
+  margin-top: 10px;
+}
+
+.cancel-btn {
+  background: #999;
+  color: #fff;
+  margin-top: 8px;
+}
+
+/* ===== Modal ===== */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal img {
+  max-width: 90%;
+  max-height: 90%;
+  border-radius: 10px;
+}

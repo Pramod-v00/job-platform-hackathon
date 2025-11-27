@@ -6,26 +6,34 @@ const {
   deleteJob,
 } = require("../controllers/jobController");
 const auth = require("../middleware/authMiddleware");
-const multer = require("multer");
-const path = require("path");
 const Job = require("../models/job");
 
 // ===============================
-// ⭐ MULTER STORAGE FOR PHOTO + VOICE
+// ⭐ CLOUDINARY SETUP
 // ===============================
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    if (file.mimetype.startsWith("image/")) {
-      cb(null, "uploads/photos/");
-    } else if (file.mimetype.startsWith("audio/")) {
-      cb(null, "uploads/voice/");
-    } else {
-      cb(new Error("Invalid file type"), null);
-    }
-  },
+const multer = require("multer");
+const { CloudinaryStorage } = require("multer-storage-cloudinary");
+const cloudinary = require("cloudinary").v2;
 
-  filename: function (req, file, cb) {
-    cb(null, Date.now() + path.extname(file.originalname));
+cloudinary.config({
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.CLOUD_API_KEY,
+  api_secret: process.env.CLOUD_API_SECRET,
+});
+
+// ===============================
+// ⭐ CLOUDINARY STORAGE
+// ===============================
+const storage = new CloudinaryStorage({
+  cloudinary,
+  params: (req, file) => {
+    // Store images in "jobphotos", voices in "jobvoices"
+    return {
+      folder: file.mimetype.startsWith("image")
+        ? "jobplatform/photos"
+        : "jobplatform/voices",
+      resource_type: file.mimetype.startsWith("image") ? "image" : "video",
+    };
   },
 });
 
@@ -61,7 +69,7 @@ router.get("/user/:phone", async (req, res) => {
 router.get("/", getJobsByDistrict);
 
 // ===============================
-// ⭐ EDIT job
+// ⭐ EDIT JOB (Only district change)
 // ===============================
 router.put("/:id", auth, async (req, res) => {
   try {

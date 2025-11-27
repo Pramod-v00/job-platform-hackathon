@@ -1,13 +1,12 @@
 import axios from "axios";
 
-const API_URL = "https://job-platform-hackathon.onrender.com/api/jobs"; // backend URL
+const API_URL = "https://job-platform-hackathon.onrender.com/api/jobs";
 
 // ✅ Create Job
-export const postJob = async (formData, userPhone) => {
+export const postJob = async (formData) => {
   const res = await axios.post(API_URL, formData, {
     headers: {
       "Content-Type": "multipart/form-data",
-      phone: userPhone, // add user phone for authentication
     },
   });
   return res.data;

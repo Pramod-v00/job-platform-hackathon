@@ -35,7 +35,7 @@ const Home = () => {
           {jobs.map((job) => (
             <div className="job-card" key={job._id}>
               <img
-                src={`https://job-platform-hackathon.onrender.com${job.photoUrl}`}
+                src={job.photoUrl}      // ⭐ FIXED
                 alt="Job"
                 className="job-photo"
               />
@@ -44,15 +44,12 @@ const Home = () => {
                 <p><strong>📞 {job.postedBy}</strong></p>
                 <p>📍 District: {job.district}</p>
 
-                {/* ⭐ Removed GPS locationName */}
-
                 <p className="posted-time">🕒 {format(job.createdAt)}</p>
 
-                {/* 🎤 Voice playback */}
                 {job.voiceUrl && (
                   <audio
                     controls
-                    src={`https://job-platform-hackathon.onrender.com${job.voiceUrl}`}
+                    src={job.voiceUrl}   // ⭐ FIXED
                     className="job-audio"
                   />
                 )}

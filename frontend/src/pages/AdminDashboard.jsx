@@ -4,6 +4,7 @@ import "../styles/admin.css";
 
 const AdminDashboard = () => {
   const [jobs, setJobs] = useState([]);
+  const [previewImage, setPreviewImage] = useState(null);  // ⭐ NEW
 
   useEffect(() => {
     fetchPendingJobs();
@@ -54,9 +55,11 @@ const AdminDashboard = () => {
           {jobs.map((job) => (
             <div className="admin-job-card" key={job._id}>
               <img
-                src={job.photoUrl}    // 👈 FIXED
+                src={job.photoUrl}
                 alt="Job"
                 className="admin-photo"
+                onClick={() => setPreviewImage(job.photoUrl)}   // ⭐ CLICK TO OPEN POPUP
+                style={{ cursor: "pointer" }}                   // ⭐ LOOK LIKE CLICKABLE
               />
 
               <div className="admin-info">
@@ -64,7 +67,7 @@ const AdminDashboard = () => {
                 <p>📍 District: {job.district}</p>
 
                 {job.voiceUrl && (
-                  <audio controls src={job.voiceUrl}></audio>  // 👈 FIXED
+                  <audio controls src={job.voiceUrl}></audio>
                 )}
 
                 <div className="admin-buttons">
@@ -78,6 +81,38 @@ const AdminDashboard = () => {
               </div>
             </div>
           ))}
+        </div>
+      )}
+
+      {/* ⭐ IMAGE POPUP MODAL */}
+      {previewImage && (
+        <div
+          className="image-modal"
+          onClick={() => setPreviewImage(null)}
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100vw",
+            height: "100vh",
+            background: "rgba(0,0,0,0.7)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            zIndex: 9999,
+            cursor: "pointer",
+          }}
+        >
+          <img
+            src={previewImage}
+            alt="Preview"
+            style={{
+              width: "80%",
+              maxHeight: "90vh",
+              borderRadius: "10px",
+              boxShadow: "0 0 25px rgba(255,255,255,0.4)",
+            }}
+          />
         </div>
       )}
     </div>

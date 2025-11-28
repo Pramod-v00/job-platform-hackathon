@@ -119,24 +119,31 @@ exports.updateUser = async (req, res) => {
       const hashed = await bcrypt.hash(req.body.password, SALT_ROUNDS);
       user.password = hashed;
     }
-
-    // ⭐ Profile Photo
-    if (req.file) {
-      user.profilePhoto = `/uploads/profile_photos/${req.file.filename}`;
-    }
-
     // ⭐ Work type update
     if (req.body.workType) {
       user.workType = req.body.workType;
     }
 
+    // ⭐ REMOVE PROFILE PHOTO
+    if (req.body.removePhoto === "true" || req.body.removePhoto === true) {
+      user.profilePhoto = "";
+    }
+
+    // ⭐ UPLOAD NEW PHOTO
+    if (req.file) {
+      user.profilePhoto = `/uploads/profile_photos/${req.file.filename}`;
+    }
+
     const updated = await user.save();
+
     const userSafe = updated.toObject();
     delete userSafe.password;
 
     res.json(userSafe);
+
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    console.error("Update user error:", err);
+    res.status(500).json({ message: "Server error" });
   }
 };
 

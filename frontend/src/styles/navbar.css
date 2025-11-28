@@ -6,6 +6,18 @@
     background-color: #009688;
     color: white;
   }
+  @media (max-width: 600px) {
+    nav {
+      flex-direction: column;
+      text-align: center;
+      gap: 10px;
+    }
+  
+    nav a {
+      display: block;
+      font-size: 18px;
+    }
+  }
   
   .nav-links a {
     color: white;

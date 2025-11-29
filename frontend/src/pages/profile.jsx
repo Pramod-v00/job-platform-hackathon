@@ -92,12 +92,15 @@ const Profile = () => {
     if (!window.confirm("Are you sure you want to delete this post?")) return;
 
     try {
-      const response = await fetch(`https://job-platform-hackathon.onrender.com/api/jobs/${jobId}`, {
-        method: "DELETE",
-        headers: {
-          phone: user.phone   // ⭐ ONLY header allowed
+      const response = await fetch(
+        `https://job-platform-hackathon.onrender.com/api/jobs/${jobId}`,
+        {
+          method: "DELETE",
+          headers: {
+            phone: user.phone, // ⭐ ONLY header allowed
+          },
         }
-      });
+      );
 
       if (response.ok) {
         setJobs(jobs.filter((job) => job._id !== jobId));
@@ -120,7 +123,7 @@ const Profile = () => {
         <div className="profile-photo">
           {user.profilePhoto && !removePhoto ? (
             <img
-              src={`https://job-platform-hackathon.onrender.com${user.profilePhoto}`}
+              src={user.profilePhoto}   // ⭐ FIXED CLOUDINARY URL
               alt="Profile"
             />
           ) : (
@@ -141,6 +144,7 @@ const Profile = () => {
                 setRemovePhoto(false);
               }}
             />
+
             <button
               className="remove-photo-btn"
               onClick={() => {
@@ -254,12 +258,25 @@ const Profile = () => {
           </div>
         ) : (
           <div className="profile-details">
-            <p><strong>Name:</strong> {user.name || "Not set"}</p>
-            <p><strong>Phone:</strong> {user.phone}</p>
-            <p><strong>District:</strong> {user.district}</p>
-            {user.workType && <p><strong>Work Type:</strong> {user.workType}</p>}
+            <p>
+              <strong>Name:</strong> {user.name || "Not set"}
+            </p>
+            <p>
+              <strong>Phone:</strong> {user.phone}
+            </p>
+            <p>
+              <strong>District:</strong> {user.district}
+            </p>
+            {user.workType && (
+              <p>
+                <strong>Work Type:</strong> {user.workType}
+              </p>
+            )}
 
-            <button className="profile-edit-btn" onClick={() => setEditing(true)}>
+            <button
+              className="profile-edit-btn"
+              onClick={() => setEditing(true)}
+            >
               Edit Profile
             </button>
           </div>
@@ -274,14 +291,14 @@ const Profile = () => {
             <div key={index} className="post-item">
               {post.photoUrl && (
                 <img
-                  src={`https://job-platform-hackathon.onrender.com${post.photoUrl}`}
+                  src={post.photoUrl} // ⭐ FIXED CLOUDINARY URL
                   alt="Post"
                 />
               )}
 
               {post.voiceUrl ? (
                 <audio controls>
-                  <source src={`https://job-platform-hackathon.onrender.com${post.voiceUrl}`} />
+                  <source src={post.voiceUrl} /> {/* ⭐ FIXED */}
                 </audio>
               ) : (
                 <p>No description available</p>
@@ -289,7 +306,6 @@ const Profile = () => {
 
               <p className="place">{post.district}</p>
 
-              {/* Only Delete button (Edit removed) */}
               <div className="post-actions">
                 <button onClick={() => handleDelete(post._id)}>Delete</button>
               </div>

@@ -1,64 +1,95 @@
+/* Navbar container */
 .navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 6px 20px;
-    background-color: #009688;
-    color: white;
-  }
-  
-  .nav-links a {
-    color: white;
-    margin-right: 15px;
-    text-decoration: none;
-  }
-  
-  .nav-links button {
-    padding: 5px 10px;
-    cursor: pointer;
-  }
-  .active-link {
-    font-weight: bold;
-    color: #004d40;
-  }
-  .nav-links a,
-.nav-links button {
-  padding: 8px 14px;
+  width: 100%;
+  background: #009688;
+  color: white;
+  padding: 12px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 999;
+}
+
+/* Left side: logo + menu button */
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: 700;
+}
+
+/* Hamburger Button (mobile only) */
+.menu-btn {
+  font-size: 24px;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  display: none;
+}
+
+/* Default Nav Links (Desktop) */
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+}
+
+/* Links */
+.nav-links a {
+  color: white;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+/* Active page highlight */
+.active-link {
+  background: #006a5c;
+  padding: 6px 12px;
   border-radius: 8px;
-  margin-right: 10px;
-  transition: 0.3s ease;
 }
 
-/* Active Page Style */
-.nav-links .active-link {
-  background-color: #006d5b;  /* darker green for premium look */
-  color: white !important;
-  padding: 8px 16px;
-  border-radius: 12px;
-  font-weight: 600;
-  box-shadow: 0px 2px 6px rgba(0,0,0,0.2);
-  transition: 0.2s ease-in-out;
+/* Logout btn */
+.logout-btn {
+  padding: 6px 14px;
+  background: #145214;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
 }
 
-.nav-links  :hover{
-  background-color: #005e53;
-  padding: 8px 16px;
-  border-radius: 12px;
-}
+/* -------------------------------- */
+/* MOBILE RESPONSIVE */
+/* -------------------------------- */
+
 @media (max-width: 768px) {
-  .navbar {
-    flex-direction: column;
-    padding-bottom: 16px;
+  .menu-btn {
+    display: block;
   }
 
   .nav-links {
+    display: none;
     flex-direction: column;
-    gap: 12px;
+    width: 100%;
+    background: #009688;
+    padding: 15px 0;
     margin-top: 10px;
+    border-radius: 10px;
   }
 
-  .logo {
-    margin-bottom: 10px;
-    font-size: 22px;
+  .nav-links.open {
+    display: flex;
+  }
+
+  .nav-links a,
+  .logout-btn {
+    margin: 8px 0;
   }
 }

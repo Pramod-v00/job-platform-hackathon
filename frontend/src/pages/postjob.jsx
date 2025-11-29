@@ -9,10 +9,9 @@ const PostJob = () => {
   const [audioBlob, setAudioBlob] = useState(null);
   const [isRecording, setIsRecording] = useState(false);
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);   // ⭐ For loading spinner
 
-  // ⭐ Added: Ref to reset the file input
   const photoInputRef = useRef(null);
-
   const mediaRecorderRef = useRef(null);
   const audioChunks = useRef([]);
 
@@ -59,6 +58,8 @@ const PostJob = () => {
     }
 
     try {
+      setLoading(true);   // ⭐ Show spinner
+
       const formData = new FormData();
       formData.append("photo", photoFile);
 
@@ -71,24 +72,36 @@ const PostJob = () => {
 
       await postJob(formData);
 
+      setLoading(false);   // ⭐ Hide spinner
+
       alert("Job posted successfully! It will be visible after admin approval.");
 
-      // ⭐ Reset all states
+      // Reset all states
       setPhotoFile(null);
       setAudioBlob(null);
       setIsRecording(false);
       setError("");
 
-      // ⭐ Reset file input
       if (photoInputRef.current) {
         photoInputRef.current.value = "";
       }
 
     } catch (err) {
       console.error(err);
+      setLoading(false);
       setError("Error posting job");
     }
   };
+
+  // ⭐ Loading screen
+  if (loading) {
+    return (
+      <div className="loading-container">
+        <div className="spinner"></div>
+        <p>Posting… Please wait</p>
+      </div>
+    );
+  }
 
   return (
     <div className="post-job-container">
@@ -99,7 +112,7 @@ const PostJob = () => {
         <input
           type="file"
           accept="image/*"
-          ref={photoInputRef}          // ⭐ Added here
+          ref={photoInputRef}
           onChange={(e) => setPhotoFile(e.target.files[0])}
         />
 

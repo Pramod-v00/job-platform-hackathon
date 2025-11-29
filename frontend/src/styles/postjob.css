@@ -106,3 +106,32 @@ button:hover {
     border-radius: 8px;
   }
 }
+.loading-container {
+  height: 75vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.spinner {
+  width: 55px;
+  height: 55px;
+  border: 6px solid #ddd;
+  border-top-color: #009688;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.loading-container p {
+  margin-top: 14px;
+  font-size: 18px;
+  color: #009688;
+  font-weight: 600;
+}

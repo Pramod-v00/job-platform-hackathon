@@ -1,96 +1,92 @@
-/* ============================
-   DESKTOP NAVBAR (DEFAULT)
-   ============================ */
-   .navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 22px;
-    background-color: #009688;
-    color: white;
+/* Top bar */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 28px;
+  background-color: #009688;
+  color: #ffffff;
+}
+
+/* Brand text */
+.logo {
+  font-size: 1.6rem;
+  font-weight: 700;
+}
+
+/* Right side links */
+.nav-links {
+  display: flex;
+  align-items: center;
+}
+
+/* Links + buttons base style */
+.nav-links a,
+.nav-links button {
+  background: transparent;
+  border: none;
+  color: #ffffff;
+  margin-left: 14px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 0.95rem;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s;
+}
+
+/* Hover effect */
+.nav-links a:hover,
+.nav-links button:hover {
+  background-color: rgba(255, 255, 255, 0.18);
+}
+
+/* Active page pill */
+.active-link {
+  background-color: #006d5b;
+  color: #ffffff !important;
+  font-weight: 600;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+}
+
+/* Logout always green pill */
+.logout-btn {
+  background-color: #7cb342;
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.logout-btn:hover {
+  background-color: #5b8f2c;
+}
+
+/* ===========================
+   📱 Simple mobile behaviour
+   - no hamburger
+   - just wrap nicely
+   =========================== */
+@media (max-width: 768px) {
+  .navbar {
+    padding: 10px 16px;
+    flex-wrap: wrap;
   }
-  
+
   .logo {
-    font-size: 27px;
-    font-weight: 700;
+    font-size: 1.4rem;
+    margin-bottom: 6px;
   }
-  
+
   .nav-links {
-    display: flex;
-    align-items: center;
-    gap: 14px;
+    width: 100%;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    margin-top: 4px;
   }
-  
+
   .nav-links a,
   .nav-links button {
-    color: white;
-    padding: 8px 14px;
-    border-radius: 8px;
-    text-decoration: none;
-    transition: 0.3s;
-    background: transparent;
-    border: none;
-    cursor: pointer;
+    margin: 4px 8px 0 0;
+    font-size: 0.85rem;
+    padding: 6px 10px;
   }
-  
-  /* Active page */
-  .active-link {
-    background-color: #006d5b;
-    color: white !important;
-    border-radius: 12px;
-    font-weight: 600;
-    box-shadow: 0px 2px 6px rgba(0,0,0,0.2);
-  }
-  
-  .nav-links a:hover,
-  .nav-links button:hover {
-    background-color: #005e53;
-  }
-  
-  /* Hamburger icon hidden on desktop */
-  .hamburger {
-    display: none;
-    font-size: 26px;
-    cursor: pointer;
-  }
-  
-  
-  /* ============================
-        MOBILE NAVBAR
-     ============================ */
-  @media (max-width: 768px) {
-  
-    /* Show hamburger */
-    .hamburger {
-      display: block;
-    }
-  
-    /* Hide nav-links initially */
-    .nav-links {
-      display: none;
-      flex-direction: column;
-      position: absolute;
-      top: 60px;
-      right: 10px;
-      background: #007f70;
-      width: 180px;
-      padding: 15px;
-      border-radius: 10px;
-      box-shadow: 0px 4px 6px rgba(0,0,0,0.2);
-      z-index: 1000;
-    }
-  
-    /* Show menu when active */
-    .nav-links.show-menu {
-      display: flex;
-    }
-  
-    .nav-links a,
-    .nav-links button {
-      width: 100%;
-      text-align: left;
-      padding: 10px;
-      margin: 5px 0;
-    }
-  }
-  
+}

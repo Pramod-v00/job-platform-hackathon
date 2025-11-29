@@ -3,19 +3,20 @@ const Job = require("../models/job"); // ✅ IMPORTANT: You forgot this import!
 const multer = require("multer");
 const path = require("path");
 const bcrypt = require("bcrypt");
+const cloudinary = require("cloudinary").v2;
+const { CloudinaryStorage } = require("multer-storage-cloudinary");
 
 const SALT_ROUNDS = 10;
 
 // ==========================
 // ⭐ MULTER STORAGE
 // ==========================
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "uploads/profile_photos/"); // ✅ correct folder
-  },
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + path.extname(file.originalname));
-  },
+const storage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: {
+    folder: "jobplatform/profile_photos",
+    allowed_formats: ["jpg", "jpeg", "png", "webp"]
+  }
 });
 
 const upload = multer({ storage });
@@ -93,7 +94,7 @@ exports.login = async (req, res) => {
 };
 
 // ==========================
-// ⭐ UPDATE USER
+// ⭐ UPDATE USER (Cloudinary Upload)
 // ==========================
 exports.updateUser = async (req, res) => {
   try {
@@ -102,10 +103,10 @@ exports.updateUser = async (req, res) => {
 
     if (!user) return res.status(404).json({ message: "User not found" });
 
-    // Name
+    // Update name
     if (req.body.name) user.name = req.body.name;
 
-    // ⭐ District change → Update all jobs also
+    // Update district + all jobs
     if (req.body.district) {
       await Job.updateMany(
         { postedBy: user.phone },
@@ -114,33 +115,30 @@ exports.updateUser = async (req, res) => {
       user.district = req.body.district;
     }
 
-    // Password (only if not empty)
+    // Update password if not empty
     if (req.body.password && req.body.password.trim() !== "") {
-      const hashed = await bcrypt.hash(req.body.password, SALT_ROUNDS);
+      const hashed = await bcrypt.hash(req.body.password, 10);
       user.password = hashed;
     }
-    // ⭐ Work type update
-    if (req.body.workType) {
-      user.workType = req.body.workType;
-    }
 
-    // ⭐ REMOVE PROFILE PHOTO
-    if (req.body.removePhoto === "true" || req.body.removePhoto === true) {
+    // Update workType
+    if (req.body.workType) user.workType = req.body.workType;
+
+    // Remove old photo
+    if (req.body.removePhoto === "true") {
       user.profilePhoto = "";
     }
 
-    // ⭐ UPLOAD NEW PHOTO
+    // ⭐ If a new profile photo uploaded → Cloudinary URL saved
     if (req.file) {
-      user.profilePhoto = `/uploads/profile_photos/${req.file.filename}`;
+      user.profilePhoto = req.file.path; // Cloudinary auto gives full URL
     }
 
     const updated = await user.save();
-
     const userSafe = updated.toObject();
     delete userSafe.password;
 
     res.json(userSafe);
-
   } catch (err) {
     console.error("Update user error:", err);
     res.status(500).json({ message: "Server error" });

@@ -1,64 +1,53 @@
 const express = require("express");
 const router = express.Router();
-const multer = require("multer");
-const path = require("path");
 const bcrypt = require("bcrypt");
 const User = require("../models/user");
-const { signup, login } = require("../controllers/userController");
+const { signup, login, updateUser } = require("../controllers/userController");
 
-// ===== Signup & Login =====
-router.post("/signup", signup);
-router.post("/login", login);
+// =============================================
+// ✅ CLOUDINARY CONFIG
+// =============================================
+const cloudinary = require("cloudinary").v2;
+const { CloudinaryStorage } = require("multer-storage-cloudinary");
+const multer = require("multer");
 
-// ===== Multer setup for profile photo upload =====
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "uploads/profile_photos/");
-  },
-  filename: function (req, file, cb) {
-    cb(null, Date.now() + path.extname(file.originalname));
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+
+// =============================================
+// ✅ MULTER → CLOUDINARY STORAGE (for profile photos)
+// =============================================
+const storage = new CloudinaryStorage({
+  cloudinary,
+  params: {
+    folder: "jobplatform/profile_photos",
+    allowed_formats: ["jpg", "jpeg", "png", "webp"],
   },
 });
+
 const upload = multer({ storage });
 
-// ===== Update profile (name, district, password, photo, workType) =====
-router.put("/update/:phone", upload.single("profilePhoto"), async (req, res) => {
-  try {
-    const { name, district, password, workType } = req.body;
-    const updateData = {};
+// =============================================
+// 🚀 ROUTES
+// =============================================
 
-    if (name) updateData.name = name;
-    if (district) updateData.district = district;
-    if (workType) updateData.workType = workType;
+// 👉 Signup
+router.post("/signup", signup);
 
-    // ✅ Hash password only if provided
-    if (password && password.trim() !== "") {
-      const hashedPassword = await bcrypt.hash(password, 10);
-      updateData.password = hashedPassword;
-    }
+// 👉 Login
+router.post("/login", login);
 
-    if (req.file) {
-      updateData.profilePhoto = `/uploads/profile_photos/${req.file.filename}`;
-    }
+// 👉 Update profile (name, district, password, photo, workType)
+router.put(
+  "/update/:phone",
+  upload.single("profilePhoto"),
+  updateUser
+);
 
-    const updatedUser = await User.findOneAndUpdate(
-      { phone: req.params.phone },
-      { $set: updateData },
-      { new: true }
-    );
-
-    if (!updatedUser) {
-      return res.status(404).json({ message: "User not found" });
-    }
-
-    res.json(updatedUser);
-  } catch (err) {
-    console.error("Error updating user:", err);
-    res.status(500).json({ message: "Server error" });
-  }
-});
-
-// ===== 🔍 Search users by work type or name =====
+// 👉 Search users by name or work type
 router.get("/search/:query/:district", async (req, res) => {
   try {
     const query = req.params.query?.toLowerCase();
@@ -69,7 +58,7 @@ router.get("/search/:query/:district", async (req, res) => {
     }
 
     const users = await User.find({
-      district,  // ⭐ filter by same district
+      district,
       $or: [
         { workType: { $regex: query, $options: "i" } },
         { name: { $regex: query, $options: "i" } },
@@ -83,25 +72,25 @@ router.get("/search/:query/:district", async (req, res) => {
   }
 });
 
-// ===== 🔑 Reset Password (for 'Forgot Password') =====
+// 👉 Forgot password → Reset password
 router.put("/reset-password", async (req, res) => {
   try {
     const { phone, newPassword } = req.body;
 
     if (!phone || !newPassword) {
-      return res.status(400).json({ message: "Phone and new password are required" });
+      return res
+        .status(400)
+        .json({ message: "Phone and new password required" });
     }
 
     const user = await User.findOne({ phone });
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
+    if (!user) return res.status(404).json({ message: "User not found" });
 
-    const hashedPassword = await bcrypt.hash(newPassword, 10);
-    user.password = hashedPassword;
+    const hashed = await bcrypt.hash(newPassword, 10);
+    user.password = hashed;
     await user.save();
 
-    res.json({ message: "Password reset successful. You can now log in." });
+    res.json({ message: "Password reset successful." });
   } catch (error) {
     console.error("Error resetting password:", error);
     res.status(500).json({ message: "Server error" });

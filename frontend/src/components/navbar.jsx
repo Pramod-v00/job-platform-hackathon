@@ -2,6 +2,7 @@ import { Link, useLocation } from "react-router-dom";
 import { useContext, useState } from "react";
 import { AuthContext } from "../context/authcontext";
 import { AdminAuthContext } from "../context/adminAuthContext";
+import { useState } from "react";
 import "../styles/navbar.css";
 
 const Navbar = () => {
@@ -16,39 +17,36 @@ const Navbar = () => {
   return (
     <>
       <nav className="navbar">
-        <h1 className="logo">JobShare</h1>
+        <h1 className="logo">JP Bridge</h1>
 
-        {/* Hamburger Button — MOBILE ONLY */}
-        <button className="mobile-menu-btn" onClick={() => setMenuOpen(!menuOpen)}>
+        {/* Hamburger (visible only on mobile) */}
+        <div className="hamburger" onClick={() => setMenuOpen(!menuOpen)}>
           ☰
-        </button>
+        </div>
 
-        {/* Desktop Links (unchanged) */}
-        <div className="nav-links desktop-only">
+        <div className={`nav-links ${menuOpen ? "show-menu" : ""}`}>
           {user && !admin && (
             <>
-              <Link className={isActive("/")} to="/">Home</Link>
-              <Link className={isActive("/search")} to="/search">Search</Link>
-              <Link className={isActive("/post-job")} to="/post-job">Post Job</Link>
-              <Link className={isActive("/profile")} to="/profile">Profile</Link>
-              <button onClick={logout}>Logout</button>
-            </>
-          )}
-
-          {admin && (
-            <>
-              <Link className={isActive("/admin-dashboard")} to="/admin-dashboard">
-                Admin Dashboard
-              </Link>
-              <button onClick={logoutAdmin}>Logout</button>
+              <Link className={isActive("/")} to="/" onClick={() => setMenuOpen(false)}>Home</Link>
+              <Link className={isActive("/search")} to="/search" onClick={() => setMenuOpen(false)}>Search</Link>
+              <Link className={isActive("/post-job")} to="/post-job" onClick={() => setMenuOpen(false)}>Post Job</Link>
+              <Link className={isActive("/profile")} to="/profile" onClick={() => setMenuOpen(false)}>Profile</Link>
+              <button onClick={() => { logout(); setMenuOpen(false); }}>Logout</button>
             </>
           )}
 
           {!user && !admin && (
             <>
-              <Link className={isActive("/login")} to="/login">Login</Link>
-              <Link className={isActive("/signup")} to="/signup">Signup</Link>
-              <Link className={isActive("/admin-login")} to="/admin-login">Admin Login</Link>
+              <Link className={isActive("/login")} to="/login" onClick={() => setMenuOpen(false)}>Login</Link>
+              <Link className={isActive("/signup")} to="/signup" onClick={() => setMenuOpen(false)}>Signup</Link>
+              <Link className={isActive("/admin-login")} to="/admin-login" onClick={() => setMenuOpen(false)}>Admin Login</Link>
+            </>
+          )}
+
+          {admin && (
+            <>
+              <Link className={isActive("/admin-dashboard")} to="/admin-dashboard" onClick={() => setMenuOpen(false)}>Admin Dashboard</Link>
+              <button onClick={() => { logoutAdmin(); setMenuOpen(false); }}>Logout</button>
             </>
           )}
         </div>

@@ -11,15 +11,19 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [loading, setLoading] = useState(false);   // ⭐ added loading
 
   const handleLogin = async (e) => {
     e.preventDefault();
+
     if (!phone || !password) {
       setError("Phone and password required");
       return;
     }
 
     try {
+      setLoading(true); // ⭐ Start spinner
+
       const user = await loginUser({ phone, password });
       login(user);
 
@@ -33,6 +37,8 @@ const Login = () => {
     } catch (err) {
       setError(err.response?.data?.message || "Login failed");
       setSuccess("");
+    } finally {
+      setLoading(false); // ⭐ Stop spinner
     }
   };
 
@@ -55,18 +61,22 @@ const Login = () => {
           onChange={(e) => setPassword(e.target.value)}
         />
 
-        {/* Error / Success Messages */}
+        {/* Error / Success */}
         {error && <p className="error">{error}</p>}
         {success && <p className="success">{success}</p>}
 
-        <button type="submit">Login</button>
+        {/* ⭐ Button with loader */}
+        <button type="submit" disabled={loading}>
+          {loading ? <div className="login-spinner"></div> : "Login"}
+        </button>
       </form>
+
       <p style={{ textAlign: "right", marginTop: "10px" }}>
         <a href="/admin-login" style={{ fontSize: "14px" }}>
           Admin Login
         </a>
       </p>
-      {/* ⭐ Forgot Password Link */}
+
       <p style={{ marginTop: "10px" }}>
         <Link to="/reset-password" className="forgot-link">
           Forgot Password?

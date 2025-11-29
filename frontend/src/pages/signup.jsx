@@ -17,12 +17,13 @@ const Signup = () => {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
+  const [loading, setLoading] = useState(false); // ⭐ NEW
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
     setSuccess("");
 
-    // 🔥 Phone number check
     if (phone.length !== 10) {
       return setError("Phone number must be exactly 10 digits.");
     }
@@ -32,27 +33,42 @@ const Signup = () => {
     }
 
     try {
+      setLoading(true); // ⭐ SHOW LOADER
+
       await signupUser({
         name,
         phone,
         password,
         district,
-        workType: workType || "", // 🔥 send workType also
+        workType: workType || "",
       });
 
+      setLoading(false); // ⭐ HIDE LOADER
       setSuccess("Signup successful! Redirecting to login...");
+
       setTimeout(() => navigate("/login"), 2000);
+
     } catch (err) {
+      setLoading(false); // ⭐ HIDE LOADER ON ERROR
       setError(err.response?.data?.message || "Signup failed");
     }
   };
 
+  // ⭐ SHOW LOADING SCREEN  
+  if (loading) {
+    return (
+      <div className="loading-container">
+        <div className="spinner"></div>
+        <p>Creating your account…</p>
+      </div>
+    );
+  }
+
   return (
     <div className="auth-container">
       <h2>Signup</h2>
+
       <form onSubmit={handleSubmit}>
-        
-        {/* FULL NAME */}
         <input
           type="text"
           placeholder="Full Name"
@@ -60,7 +76,6 @@ const Signup = () => {
           onChange={(e) => setName(e.target.value)}
         />
 
-        {/* PHONE */}
         <input
           type="text"
           maxLength="10"
@@ -69,7 +84,6 @@ const Signup = () => {
           onChange={(e) => setPhone(e.target.value)}
         />
 
-        {/* PASSWORD */}
         <input
           type="password"
           placeholder="Password"
@@ -77,7 +91,6 @@ const Signup = () => {
           onChange={(e) => setPassword(e.target.value)}
         />
 
-        {/* DISTRICT */}
         <select value={district} onChange={(e) => setDistrict(e.target.value)}>
           <option value="">Select District</option>
           <option value="Bagalkot">Bagalkot</option>
@@ -112,7 +125,6 @@ const Signup = () => {
           <option value="Yadgir">Yadgir</option>
         </select>
 
-        {/* WORK TYPE */}
         <select
           value={isOtherSelected ? "Other" : workType}
           onChange={(e) => {
@@ -137,7 +149,6 @@ const Signup = () => {
           <option value="Other">Other</option>
         </select>
 
-        {/* OTHER WORK TYPE INPUT */}
         {isOtherSelected && (
           <input
             type="text"
@@ -147,7 +158,6 @@ const Signup = () => {
           />
         )}
 
-        {/* ERROR / SUCCESS */}
         {error && <p className="error">{error}</p>}
         {success && <p className="success">{success}</p>}
 
